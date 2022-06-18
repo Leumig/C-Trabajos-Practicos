@@ -10,3 +10,4 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger);
 int controller_buscarPasajeroPorID(LinkedList* pArrayListPassenger, int len, int id);
 int controller_getUltimaID();
 int controller_actualizarID(int idActual);
+void controller_setearID();

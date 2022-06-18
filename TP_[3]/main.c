@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Controller.h"
-#include "Passenger.h"
 #include "Menu.h"
+#include "Passenger.h"
 #include "Passenger_ABM.h"
 
 /****************************************************
@@ -20,8 +20,6 @@
     10. Salir
 *****************************************************/
 
-
-
 int main()
 {
 	setbuf(stdout, NULL);
@@ -32,7 +30,8 @@ int main()
 	int flagCargaBin = 0;
 	int flagGuardarTxt = 0;
 	int flagGuardarBin = 0;
-	int proximaId = controller_getUltimaID();
+
+	controller_getUltimaID();
 
     LinkedList* listaPasajeros = ll_newLinkedList();
 
@@ -43,7 +42,7 @@ int main()
     }
 
     do{
-    	switch(menu())
+    	switch(menu(listaPasajeros))
 		{
 		case 1:
 			if(flagCargaTxt == 1 || flagCargaBin == 1)
@@ -69,7 +68,6 @@ int main()
 			break;
 		case 3:
 				controller_addPassenger(listaPasajeros);
-
 			break;
 		case 4:
 			controller_editPassenger(listaPasajeros);

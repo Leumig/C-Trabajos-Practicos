@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "LinkedList.h"
 #include <string.h>
 #include <ctype.h>
+#include "LinkedList.h"
+#include "Controller.h"
 #include "Passenger.h"
 #include "parser.h"
+#include "Passenger_ABM.h"
 #include "Validaciones.h"
-#include "Passenger_ABM.h"
-#include "Controller.h"
-#include "Passenger_ABM.h"
 #include "Menu.h"
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
@@ -164,10 +163,126 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_editPassenger(LinkedList* pArrayListPassenger)
 {
+	int todoOk = 0;
+	int id;
+	int len = ll_len(pArrayListPassenger);
+	int indice;
+
+	if(pArrayListPassenger != NULL)
+	{
+		do
+		{
+			if(len == 0)
+			{
+				printf("No hay pasajeros en el sistema\n\n");
+				return todoOk;
+			}
+			controller_ListPassenger(pArrayListPassenger);
+			printf("\n¿Qué pasajero quiere modificar?\n");
+			printf("Ingrese la ID correspondiente: ");
+			fflush(stdin);
+			scanf("%d", &id);
+
+			if(controller_buscarPasajeroPorID(pArrayListPassenger, len, id) == -1)
+			{
+				printf("No hay ningún pasajero con esa ID \n");
+				system("pause");
+			}else
+			{
+				indice = controller_buscarPasajeroPorID(pArrayListPassenger, len, id);
+				Passenger* pasajeroEditado = ll_get(pArrayListPassenger, indice);
+
+				char nombre[50];
+				char apellido[50];
+				char codigo[15];
+				int validarPrecio = 0;
+				float precio = 0;
+				int validTipo = 0;
+				int tipo = 0;
+				int status = 0;
+
+				switch(menuModificar())
+				{
+				case 1:
+					printf("\nIngrese el nuevo nombre: ");
+					fflush(stdin);
+					gets(nombre);
+					validarPalabra(nombre);
+					Passenger_setNombre(pasajeroEditado, nombre);
+					ll_set(pArrayListPassenger, indice, pasajeroEditado);
+
+					printf("\nNombre modificado correctamente \n\n");
+					todoOk = 1;
+					break;
+				case 2:
+					printf("Ingrese el nuevo apellido: ");
+					fflush(stdin);
+					gets(apellido);
+					validarPalabra(apellido);
+					Passenger_setApellido(pasajeroEditado, apellido);
+					ll_set(pArrayListPassenger, indice, pasajeroEditado);
+
+					printf("\nApellido modificado correctamente \n\n");
+					todoOk = 1;
+					break;
+				case 3:
+					printf("\nIngrese el nuevo precio: ");
+					validarPrecio = scanf("%f", &precio);
+					validarFloat(validarPrecio, &precio);
+					Passenger_setPrecio(pasajeroEditado, precio);
+					ll_set(pArrayListPassenger, indice, pasajeroEditado);
+
+					printf("\nPrecio modificado correctamente \n\n");
+					todoOk = 1;
+					break;
+				case 4:
+					printf("\nCódigo de vuelo\n");
+					printf("Recuerde que debe tener 10 dígitos y empezar con 'A', 'B', 'C' o 'D'\n\n");
+					printf("Ingrese código: ");
+					fflush(stdin);
+					gets(codigo);
+					validarCodigoYStatus(codigo, &status);
+
+					printf("\nAclaración: Todos los vuelos de la línea 'C' ya aterrizaron\n");
+					printf("Aclaración: Todos los vuelos de la línea 'A' se encuentran en vuelo\n");
+					printf("Aclaración: Todos los vuelos de la línea 'B' se encuentran están en horario\n");
+					printf("Aclaración: Todos los vuelos de la línea 'D' se encuentran demorados\n\n");
+
+					system("pause");
+					Passenger_setCodigoVuelo(pasajeroEditado, codigo);
+					Passenger_setStatusFlight(pasajeroEditado, status);
+					ll_set(pArrayListPassenger, indice, pasajeroEditado);
+
+					printf("\nCodigo modificado correctamente \n\n");
+					todoOk = 1;
+					break;
+				case 5:
+					printf("Tipos de pasajero \n\n");
+					printf("1. Executive Class \n");
+					printf("2. First Class \n");
+					printf("3. Economy Class \n\n");
+					printf("Seleccione su tipo: ");
+					validTipo = scanf("%d", &tipo);
+					validarTipo(validTipo, &tipo);
+					pasajeroEditado->tipoPasajero = tipo;
+					Passenger_setTipoPasajero(pasajeroEditado, tipo);
+					ll_set(pArrayListPassenger, indice, pasajeroEditado);
+
+					printf("\nTipo modificado correctamente \n\n");
+					todoOk = 1;
+					break;
+
+				default:
+					printf("Opción incorrecta\n\n");
+					system("pause");
+					break;
+				}
+			}
+		}while(todoOk == 0);
+	}
+
 	return 1;
 }
-
-
 
 /** \brief Baja de pasajero
  *
@@ -198,7 +313,6 @@ int controller_removePassenger(LinkedList* pArrayListPassenger)
 			printf("Ingrese la ID correspondiente: ");
 			fflush(stdin);
 			scanf("%d", &id);
-
 
 			if(controller_buscarPasajeroPorID(pArrayListPassenger, len, id) == -1)
 			{
@@ -318,7 +432,73 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger)
  */
 int controller_sortPassenger(LinkedList* pArrayListPassenger)
 {
-    return 1;
+	int todoOk = 0;
+
+	if(pArrayListPassenger != NULL)
+	{
+		if(ll_len(pArrayListPassenger) == 0)
+		{
+			printf("No hay pasajeros en el sistema\n");
+			return 0;
+		}
+
+		int criterio;
+		char criterioString[20];
+
+		switch(menuOrdenar())
+		{
+		case 1:
+			criterio = preguntarCriterio(criterioString);
+			ll_sort(pArrayListPassenger, pasajeroCompararId, criterio);
+			printf("\nLa lista ahora está ordenada por ID (%s)\n\n", criterioString);
+			break;
+
+		case 2:
+			criterio = preguntarCriterio(criterioString);
+			ll_sort(pArrayListPassenger, pasajeroCompararNombre, criterio);
+			printf("\nLa lista ahora está ordenada por Nombre (%s)\n\n", criterioString);
+			break;
+
+		case 3:
+			criterio = preguntarCriterio(criterioString);
+			ll_sort(pArrayListPassenger, pasajeroCompararApellido, criterio);
+			printf("\nLa lista ahora está ordenada por Apellido (%s)\n\n", criterioString);
+			break;
+
+		case 4:
+			criterio = preguntarCriterio(criterioString);
+			ll_sort(pArrayListPassenger, pasajeroCompararPrecio, criterio);
+			printf("\nLa lista ahora está ordenada por Precio (%s)\n\n", criterioString);
+			break;
+
+		case 5:
+			criterio = preguntarCriterio(criterioString);
+			ll_sort(pArrayListPassenger, pasajeroCompararCodigo, criterio);
+			printf("\nLa lista ahora está ordenada por Codigo de Vuelo (%s)\n\n", criterioString);
+			break;
+
+		case 6:
+			criterio = preguntarCriterio(criterioString);
+			ll_sort(pArrayListPassenger, pasajeroCompararTipo, criterio);
+			printf("\nLa lista ahora está ordenada por Tipo (%s)\n\n", criterioString);
+			break;
+
+		case 7:
+			criterio = preguntarCriterio(criterioString);
+			ll_sort(pArrayListPassenger, pasajeroCompararEstado, criterio);
+			printf("\nLa lista ahora está ordenada por Estado de Vuelo (%s)\n\n", criterioString);
+			break;
+
+		default:
+			printf("Opción errónea\n");
+			return 0;
+			break;
+		}
+		todoOk = 1;
+
+	}
+
+    return todoOk;
 }
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
@@ -376,15 +556,14 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 }
 
 
-/// @brief Al iniciar el programa cargo el valor que tenga guardado, y se lo asigno a la
-/// ID que voy a usar, si no hay nada guardado, se crea el archivo por primera vez.
+/// @brief Abre un archivo (si no existe lo crea), y le escribe el valor
+/// del último ID ingresado.
 ///
-///
-/// @return retorna el valor del último ID
+/// @return retorna el valor que este escrito en el archivo
 int controller_getUltimaID()
 {
 	int ultimaId = 1;
-	char ultimaIdStr[50];
+	char ultimaIdStr[100];
 
 	FILE* f = fopen("ultimaID.txt", "r");
 
@@ -404,7 +583,7 @@ int controller_getUltimaID()
 	return ultimaId;
 }
 
-/// @brief Recibe el valor de la id actual (la ultima), y la guarda en el archivo sumandole 1+
+/// @brief Recibe el valor de la id actual, le suma 1+ y la escribe en el archivo
 ///
 /// @param idActual recibe el valor de la id actual
 /// @return retorna 1 si funciona, 0 si no funciona
@@ -414,7 +593,7 @@ int controller_actualizarID(int idActual)
 
 	FILE* f = fopen("ultimaID.txt", "w");
 
-	if(f!=NULL)
+	if(f != NULL)
 	{
 		fprintf(f, "%d\n", idActual + 1);
 		todoOk = 1;
@@ -422,4 +601,19 @@ int controller_actualizarID(int idActual)
 	fclose(f);
 
 	return todoOk;
+}
+
+/// @brief Escribe '1' en el archivo de backup del ID y se ejecuta
+/// al iniciar el programa.
+///
+/// @return
+void controller_setearID()
+{
+	FILE* f = fopen("ultimaID.txt", "w");
+
+	if(f != NULL)
+	{
+		fprintf(f, "%d\n", 1);
+	}
+	fclose(f);
 }

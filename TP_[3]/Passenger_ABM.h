@@ -1,10 +1,3 @@
-/*
- * Passenger_ABM.h
- *
- *  Created on: 11 jun. 2022
- *      Author: JUNMI
- */
-
 #ifndef PASSENGER_ABM_H_
 #define PASSENGER_ABM_H_
 
@@ -28,22 +21,74 @@ int mostrarPasajero(Passenger* e);
 Passenger* Passenger_newParametrosAdd(int id, char* nombre, char* apellido, float precio,
 								   char* codigoVuelo, int tipoPasajero, int statusFlight);
 
+/// @brief Le pide al usuario que ingrese 'a' o 'd' para elegir el criterio de orden,
+/// y le carga al criterioString la palabra 'Ascendente' o 'Descendente'.
+///
+/// @param criterioString recibe la ddm de un char que guardará la palabra
+/// @return devuelve 1 si se ingreso 'a' o 0 si se ingreso 'd'
+int preguntarCriterio(char* criterioString);
 
+/// @brief Compara los dos elementos recibidos (ID) para poder ordenarlos
+/// gracias a la función ll_sort.
+///
+/// @param a recibe la ddm del primer elemento
+/// @param b recibe la ddm del segundo elemento
+/// @return si el primer elemento es mayor al segundo devuelve 1, si es al reves
+/// devuelve -1, y si son iguales o alguno es NULL devuelve 0
+int pasajeroCompararId(void* a, void* b);
 
+/// @brief Compara los dos elementos recibidos (Nombre) para poder ordenarlos
+/// gracias a la función ll_sort.
+///
+/// @param a recibe la ddm del primer elemento
+/// @param b recibe la ddm del segundo elemento
+/// @return si el primer elemento es mayor al segundo devuelve 1, si es al reves
+/// devuelve -1, y si son iguales o alguno es NULL devuelve 0
+int pasajeroCompararNombre(void* a, void* b);
 
+/// @brief Compara los dos elementos recibidos (Apellido) para poder ordenarlos
+/// gracias a la función ll_sort.
+///
+/// @param a recibe la ddm del primer elemento
+/// @param b recibe la ddm del segundo elemento
+/// @return si el primer elemento es mayor al segundo devuelve 1, si es al reves
+/// devuelve -1, y si son iguales o alguno es NULL devuelve 0
+int pasajeroCompararApellido(void* a, void* b);
 
+/// @brief Compara los dos elementos recibidos (Precio) para poder ordenarlos
+/// gracias a la función ll_sort.
+///
+/// @param a recibe la ddm del primer elemento
+/// @param b recibe la ddm del segundo elemento
+/// @return si el primer elemento es mayor al segundo devuelve 1, si es al reves
+/// devuelve -1, y si son iguales o alguno es NULL devuelve 0
+int pasajeroCompararPrecio(void* a, void* b);
 
+/// @brief Compara los dos elementos recibidos (Codigo) para poder ordenarlos
+/// gracias a la función ll_sort.
+///
+/// @param a recibe la ddm del primer elemento
+/// @param b recibe la ddm del segundo elemento
+/// @return si el primer elemento es mayor al segundo devuelve 1, si es al reves
+/// devuelve -1, y si son iguales o alguno es NULL devuelve 0
+int pasajeroCompararCodigo(void* a, void* b);
 
+/// @brief Compara los dos elementos recibidos (Tipo) para poder ordenarlos
+/// gracias a la función ll_sort.
+///
+/// @param a recibe la ddm del primer elemento
+/// @param b recibe la ddm del segundo elemento
+/// @return si el primer elemento es mayor al segundo devuelve 1, si es al reves
+/// devuelve -1, y si son iguales o alguno es NULL devuelve 0
+int pasajeroCompararTipo(void* a, void* b);
 
-
-
-
-
-
-
-
-
-
-
+/// @brief Compara los dos elementos recibidos (Estado) para poder ordenarlos
+/// gracias a la función ll_sort.
+///
+/// @param a recibe la ddm del primer elemento
+/// @param b recibe la ddm del segundo elemento
+/// @return si el primer elemento es mayor al segundo devuelve 1, si es al reves
+/// devuelve -1, y si son iguales o alguno es NULL devuelve 0
+int pasajeroCompararEstado(void* a, void* b);
 
 #endif /* PASSENGER_ABM_H_ */

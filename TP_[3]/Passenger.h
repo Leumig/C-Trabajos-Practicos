@@ -1,10 +1,3 @@
-/*
- * Passenger.h
- *
- *  Created on: 19 may. 2022
- *
- */
-
 #ifndef PASSENGER_H_
 #define PASSENGER_H_
 

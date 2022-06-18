@@ -18,7 +18,15 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
 	{
 		int cant = 0;
 		char buffer[7][20];
-		int idActual = controller_getUltimaID();
+		int cantPass = ll_len(pArrayListPassenger);
+		int flagAlta = 1;
+		int ultimaId = 0;
+		int contadorNuevos = 0;
+
+		if(cantPass == 0)
+		{
+			flagAlta = 0;
+		}
 
 		Passenger* auxPass = NULL;
 
@@ -34,18 +42,21 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
 
 				if(auxPass != NULL)
 				{
-					auxPass->id = idActual;
-					idActual++;
-
 					ll_add(pArrayListPassenger, auxPass);
+					ultimaId = auxPass->id;
+					contadorNuevos++;
 				}
 			}
-
 		}
+
 		Passenger_delete(auxPass);
 
-		idActual = idActual -1;
-		controller_actualizarID(idActual);
+		if(flagAlta == 0)
+		{
+			controller_actualizarID(ultimaId);
+		}
+
+		printf("\n[Pasajeros: %d]\n", contadorNuevos);
 	}
 
     return 1;
@@ -63,7 +74,15 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)
 	if(pFile != NULL && pArrayListPassenger != NULL)
 	{
 		int cant = 1;
-		int idActual = controller_getUltimaID();
+		int cantPass = ll_len(pArrayListPassenger);
+		int flagAlta = 1;
+		int ultimaId = 0;
+		int contadorNuevos = 0;
+
+		if(cantPass == 0)
+		{
+			flagAlta = 0;
+		}
 
 		Passenger* auxPass = Passenger_new();
 
@@ -71,20 +90,25 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)
 		{
 			cant = fread(auxPass, sizeof(Passenger), 1, pFile);
 
-			if(cant == 1)
+			if(cant == 1 && auxPass != NULL)
 			{
-				auxPass->id = idActual;
-				idActual++;
 				ll_add(pArrayListPassenger, auxPass);
-				auxPass = Passenger_new();
+				ultimaId = auxPass->id;
 			}
+
 		}while(cant);
 
 		Passenger_delete(auxPass);
 
-		idActual = idActual -1;
-		controller_actualizarID(idActual);
+		if(flagAlta == 0)
+		{
+			controller_actualizarID(ultimaId);
+		}
+
+		printf("\n[Pasajeros: %d]\n", contadorNuevos);
 	}
+
+
 
     return 1;
 }

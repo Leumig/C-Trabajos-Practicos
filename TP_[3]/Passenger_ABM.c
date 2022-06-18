@@ -1,9 +1,3 @@
-/*
- * Passenger_ABM.c
- *
- *  Created on: 11 jun. 2022
- *      Author: JUNMI
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -65,31 +59,190 @@ Passenger* Passenger_newParametrosAdd(int id, char* nombre, char* apellido, floa
 
 	return nuevoPasajero;
 }
-int buscarPasajeroPorID(LinkedList* pArrayListPassenger, int len, int id)
+
+int preguntarCriterio(char* criterioString)
 {
-	int indice = -1;
-	int idEncontrado;
+	char criterio;
+	int retorno = -1;
 
-	Passenger* pass = NULL;
+	printf("'A' = Ascendente\n");
+	printf("'D' = Descendente\n\n");
+	printf("Ingrese el criterio de ordenamiento: ");
+	fflush(stdin);
+	scanf("%c", &criterio);
 
-	if(pArrayListPassenger != NULL && len > 0 && id > 0)
+	while(criterio != 'a' && criterio != 'd' && criterio != 'A' && criterio != 'D')
 	{
-		for(int i = 0; i < len; i++)
+		printf("Opción errónea\n");
+		printf("Ingrese el criterio de ordenamiento ('A' o 'D'): ");
+		fflush(stdin);
+		scanf("%c", &criterio);
+	}
+
+	if(criterio == 'a' || criterio == 'A')
+	{
+		retorno = 1;
+	}else
+	{
+		retorno = 0;
+	}
+
+	if(retorno == 1)
+	{
+		strcpy(criterioString, "Ascendente");
+	}else
+	{
+		strcpy(criterioString, "Descendente");
+	}
+
+	return retorno;
+}
+
+int pasajeroCompararId(void* a, void* b)
+{
+	int retorno = 0;
+
+	if(a != NULL && b != NULL)
+	{
+		Passenger* passA;
+		Passenger* passB;
+
+		passA = (Passenger*) a;
+		passB = (Passenger*) b;
+
+		if(passA->id > passB->id)
 		{
-			pass = ll_get(pArrayListPassenger, i);
+			retorno = 1;
+		}else if(passA->id < passB->id)
+		{
+			retorno = -1;
+		}
+	}
+	return retorno;
+}
+int pasajeroCompararNombre(void* a, void* b)
+{
+	int retorno = 0;
 
-			if(pass!=NULL)
-			{
-				Passenger_getId(pass, &idEncontrado);
+	if(a != NULL && b != NULL)
+	{
+		Passenger* passA;
+		Passenger* passB;
 
-				if(idEncontrado == id)
-				{
-					indice = i;
-				}
+		passA = (Passenger*) a;
+		passB = (Passenger*) b;
 
-			}
+
+		retorno = strcmp(passA->nombre, passB->nombre);
+
+	}
+	return retorno;
+}
+int pasajeroCompararApellido(void* a, void* b)
+{
+	int retorno = 0;
+
+	if(a != NULL && b != NULL)
+	{
+		Passenger* passA;
+		Passenger* passB;
+
+		passA = (Passenger*) a;
+		passB = (Passenger*) b;
+
+
+		retorno = strcmp(passA->apellido, passB->apellido);
+	}
+
+	return retorno;
+}
+int pasajeroCompararPrecio(void* a, void* b)
+{
+	int retorno = 0;
+
+	if(a != NULL && b != NULL)
+	{
+		Passenger* passA;
+		Passenger* passB;
+
+		passA = (Passenger*) a;
+		passB = (Passenger*) b;
+
+		if(passA->precio > passB->precio)
+		{
+			retorno = 1;
+		}else if(passA->precio < passB->precio)
+		{
+			retorno = -1;
 		}
 	}
 
-	return indice;
+	return retorno;
+}
+int pasajeroCompararCodigo(void* a, void* b)
+{
+	int retorno = 0;
+
+	if(a != NULL && b != NULL)
+	{
+		Passenger* passA;
+		Passenger* passB;
+
+		passA = (Passenger*) a;
+		passB = (Passenger*) b;
+
+
+		retorno = strcmp(passA->codigoVuelo, passB->codigoVuelo);
+
+	}
+
+	return retorno;
+}
+int pasajeroCompararTipo(void* a, void* b)
+{
+	int retorno = 0;
+
+	if(a != NULL && b != NULL)
+	{
+		Passenger* passA;
+		Passenger* passB;
+
+		passA = (Passenger*) a;
+		passB = (Passenger*) b;
+
+		if(passA->tipoPasajero > passB->tipoPasajero)
+		{
+			retorno = 1;
+		}else if(passA->tipoPasajero < passB->tipoPasajero)
+		{
+			retorno = -1;
+		}
+
+	}
+
+	return retorno;
+}
+int pasajeroCompararEstado(void* a, void* b)
+{
+	int retorno = 0;
+
+	if(a != NULL && b != NULL)
+	{
+		Passenger* passA;
+		Passenger* passB;
+
+		passA = (Passenger*) a;
+		passB = (Passenger*) b;
+
+		if(passA->statusFlight > passB->statusFlight)
+		{
+			retorno = 1;
+		}else if(passA->statusFlight < passB->statusFlight)
+		{
+			retorno = -1;
+		}
+
+	}
+
+	return retorno;
 }

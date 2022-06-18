@@ -1,10 +1,3 @@
-/*
- * Validaciones.h
- *
- *  Created on: 6 may. 2022
- *      Author: JUNMI
- */
-
 #ifndef VALIDACIONES_H_
 #define VALIDACIONES_H_
 
