@@ -126,3 +126,27 @@ int validarTipo(int validarTipo, int* pTipo)
 
 	return todoOk;
 }
+
+
+int validarPath(char* path)
+{
+	int todoOk = 0;
+
+	if(path != NULL)
+	{
+		for(int i = 0; i < strlen(path); i++)
+		{
+			while(strlen(path) >= 1 || ((!(path[i] >= 65 && path[i] <= 90))
+			&& (!(path[i] >= 97 && path[i] <= 122)) && (!(path[i] >= 48 && path[i] <= 57))))
+			{
+				printf("Path erróneo, debe tener sólo números y letras.\n");
+				printf("Reingrese path: ");
+				fflush(stdin);
+				gets(path);
+			}
+		}
+
+	}
+
+	return todoOk;
+}

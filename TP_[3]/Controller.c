@@ -10,6 +10,29 @@
 #include "Validaciones.h"
 #include "Menu.h"
 
+/** \brief Le pido un path al usuario para abrir el archivo.
+ *
+ * \param path char*
+ * \param pArrayListPassenger LinkedList*
+ * \return ints
+ *
+ */
+int controller_getPath(char* path)
+{
+	int todoOk = 0;
+
+	if(path != NULL)
+	{
+		printf("Escriba el nombre del archivo que quiere abrir: ");
+		gets(path);
+		validarPath(path);
+		todoOk = 1;
+	}
+
+    return todoOk;
+}
+
+
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
  *
  * \param path char*
@@ -546,7 +569,7 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 		for(int i = 0; i < ll_len(pArrayListPassenger); i++)
 		{
 			auxPass = (Passenger*) ll_get(pArrayListPassenger, i);
-			fwrite(auxPass,sizeof(Passenger), 1, f);
+			fwrite(auxPass, sizeof(Passenger), 1, f);
 		}
 
 		fclose(f);

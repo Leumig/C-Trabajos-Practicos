@@ -25,6 +25,7 @@ int main()
 	setbuf(stdout, NULL);
 
 	char salirMenu = 'n';
+	char path[100];
 
 	int flagCargaTxt = 0;
 	int flagCargaBin = 0;
@@ -50,7 +51,9 @@ int main()
 				printf("Ya se realizó la carga de datos anteriormente\n\n");
 			}else
 			{
-				controller_loadFromText("data.csv", listaPasajeros);
+				controller_getPath(path);
+
+				controller_loadFromText(path, listaPasajeros);
 				flagCargaTxt = 1;
 			}
 
@@ -61,7 +64,9 @@ int main()
 				printf("Ya se realizó la carga de datos anteriormente\n\n");
 			}else
 			{
-				controller_loadFromBinary("data.bin", listaPasajeros);
+				controller_getPath(path);
+
+				controller_loadFromBinary(path, listaPasajeros);
 				flagCargaBin = 1;
 			}
 
@@ -92,8 +97,10 @@ int main()
 				printf("No se puede guardar como texto si se hizo una carga binaria\n\n");
 			}else
 			{
-				controller_saveAsText("data.csv" , listaPasajeros);
-				printf("\nGuardado correctamente\n\n");
+				controller_getPath(path);
+
+				controller_saveAsText(path , listaPasajeros);
+				printf("\nGuardado. Recuerde SALIR del programa para que el guardado funcione correctamente.\n\n");
 				flagGuardarTxt = 1;
 			}
 
@@ -104,8 +111,10 @@ int main()
 				printf("No se puede guardar como binario si se hizo una carga de texto\n\n");
 			}else
 			{
-				controller_saveAsBinary("data.csv" , listaPasajeros);
-				printf("\nGuardado correctamente\n\n");
+				controller_getPath(path);
+
+				controller_saveAsBinary(path , listaPasajeros);
+				printf("\nGuardado. Recuerde SALIR del programa para que el guardado funcione correctamente.\n\n");
 				flagGuardarBin = 1;
 			}
 

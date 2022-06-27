@@ -43,4 +43,14 @@ int validarCodigoYStatus(char* codigo, int* status);
 /// @return retorna 1 cuando finalice la función
 int validarTipo(int validarTipo, int* tipo);
 
+
+
+
+int validarPath(char* path);
+
+
+
+
+
+
 #endif /* VALIDACIONES_H_ */

@@ -56,7 +56,7 @@ int parser_PassengerFromText(FILE* pFile , LinkedList* pArrayListPassenger)
 			controller_actualizarID(ultimaId);
 		}
 
-		printf("\n[Pasajeros: %d]\n", contadorNuevos);
+		printf("\n[Pasajeros cargados: %d]\n", contadorNuevos);
 	}
 
     return 1;
@@ -94,6 +94,8 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)
 			{
 				ll_add(pArrayListPassenger, auxPass);
 				ultimaId = auxPass->id;
+				auxPass = Passenger_new();
+				contadorNuevos++;
 			}
 
 		}while(cant);
@@ -105,10 +107,8 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)
 			controller_actualizarID(ultimaId);
 		}
 
-		printf("\n[Pasajeros: %d]\n", contadorNuevos);
+		printf("\n[Pasajeros cargados: %d]\n", contadorNuevos);
 	}
-
-
 
     return 1;
 }

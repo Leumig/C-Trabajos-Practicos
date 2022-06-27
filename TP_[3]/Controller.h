@@ -1,3 +1,4 @@
+int controller_getPath(char* path);
 int controller_loadFromText(char* path , LinkedList* pArrayListPassenger);
 int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger);
 int controller_addPassenger(LinkedList* pArrayListPassenger);
