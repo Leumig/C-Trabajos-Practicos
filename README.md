@@ -5,16 +5,16 @@ Utilizo el lenguaje **C**, con el cual aprendí los fundamentos de la programaci
 
 ### Detalles de los proyectos
 
-1. Calculos de vuelos 
+1. Calculos de vuelos  
 La aplicación tiene un menú de opciones con el cual se pueden ingresar datos de un vuelo, hacer cálculos y mostrar los resultados.
 
-2. ABM de pasajeros 
+2. ABM de pasajeros  
 La aplicación es un ABM de pasajeros, se maneja con un menú simple. Tiene la opción de informar el cual despliega un nuevo menú para mostrar distintos informes.
 
-3. ABM de pasajeros con persistencia de datos 
+3. ABM de pasajeros con persistencia de datos  
 Funciona como el anterior, pero con la opción de guardar/cargar los datos en archivos en .csv o .bin. También se pueden ordenar los pasajeros por cualquier campo.
 
-4. Funciones de LinkedList 
+4. Funciones de LinkedList  
 El programa pone a prueba cómo trabajan las funciones principales de la LinkedList. 
 
 
